@@ -40,7 +40,7 @@ describe('카카오 로그인 비즈니스 로직', () => {
       const isRegistration = false;
 
       expect(getSuccessMessage(isRegistration)).toContain('로그인이 완료');
-      expect(getLoginSuccessDelay(isRegistration)).toBe(0); // 성공 시 즉시 이동
+      expect(getLoginSuccessDelay).toBe(0); // 성공 시 즉시 이동
       expect(getSuccessNavigationTarget()).toBe('/home');
     });
 
@@ -52,7 +52,7 @@ describe('카카오 로그인 비즈니스 로직', () => {
 
       const isRegistration = true;
       expect(getSuccessMessage(isRegistration)).toContain('회원가입이 완료');
-      expect(getLoginSuccessDelay(isRegistration)).toBe(0); // 성공 시 즉시 이동
+      expect(getLoginSuccessDelay).toBe(0); // 성공 시 즉시 이동
       expect(getSuccessNavigationTarget()).toBe('/home');
 
       clearSavedNickname();

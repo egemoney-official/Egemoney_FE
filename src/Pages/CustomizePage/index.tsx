@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import styled from '@emotion/styled';
 import { theme } from '@/styles/theme';
 import { Container } from '@/Shared/components/Container';
@@ -46,7 +46,10 @@ export const CustomizePage = () => {
     '/page/home',
   );
 
-  const costumeList: CostumeItem[] = costumeData?.costumeItems ?? [];
+  const costumeList: CostumeItem[] = useMemo(
+    () => costumeData?.costumeItems ?? [],
+    [costumeData?.costumeItems],
+  );
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [isImageLoading, setIsImageLoading] = useState(true);
   const navigate = useNavigate();
@@ -82,8 +85,9 @@ export const CustomizePage = () => {
       ]);
       alert('착용하기 완료');
       navigate('/home');
-    } catch (err) {
+    } catch (e: unknown) {
       alert('착용하기에 실패했습니다. 다시 시도해주세요.');
+      console.error(e);
     }
   };
 

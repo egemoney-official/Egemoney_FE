@@ -95,8 +95,8 @@ export const QuizListPage = () => {
     const pages: number[] = [];
     const maxVisiblePages = 5;
     const blockStart = Math.floor(currentPage / maxVisiblePages) * maxVisiblePages;
-    let startPage = blockStart;
-    let endPage = Math.min(totalPages - 1, startPage + maxVisiblePages - 1);
+    const startPage = blockStart;
+    const endPage = Math.min(totalPages - 1, startPage + maxVisiblePages - 1);
 
     for (let i = startPage; i <= endPage; i++) {
       pages.push(i);

@@ -93,10 +93,9 @@ export const getRedirectDelay = (target: string): number => {
 
 /**
  * 로그인 성공 시 지연 시간 결정
- * @param _isRegistration - 회원가입 플로우인지 여부 (현재 미사용, 즉시 이동)
  * @returns 지연 시간 (ms)
  */
-export const getLoginSuccessDelay = (_isRegistration: boolean): number => {
+export const getLoginSuccessDelay = (): number => {
   return 0; // 성공 시 즉시 이동
 };
 

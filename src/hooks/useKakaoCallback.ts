@@ -63,24 +63,20 @@ export const useKakaoCallback = (): UseKakaoCallbackReturn => {
    * 회원가입 처리
    */
   const handleRegistration = async (code: string, nickname: string) => {
-    try {
-      const result = await registerWithCode({ code, nickname });
+    const result = await registerWithCode({ code, nickname });
 
-      if (result.accessToken) {
-        setAccessToken(result.accessToken, 7);
-        clearSavedNickname();
+    if (result.accessToken) {
+      setAccessToken(result.accessToken, 7);
+      clearSavedNickname();
 
-        const isRegistration = true;
-        setStatus('success');
-        setMessage(getSuccessMessage(isRegistration));
+      const isRegistration = true;
+      setStatus('success');
+      setMessage(getSuccessMessage(isRegistration));
 
-        const delay = getLoginSuccessDelay(isRegistration);
-        timeout.current = setTimeout(() => {
-          navigate('/home');
-        }, delay);
-      }
-    } catch (error) {
-      throw error;
+      const delay = getLoginSuccessDelay();
+      timeout.current = setTimeout(() => {
+        navigate('/home');
+      }, delay);
     }
   };
 
@@ -98,7 +94,7 @@ export const useKakaoCallback = (): UseKakaoCallbackReturn => {
       setAccessToken(result.accessToken, 7);
     }
 
-    const delay = getLoginSuccessDelay(isRegistration);
+    const delay = getLoginSuccessDelay();
     timeout.current = setTimeout(() => {
       navigate('/home');
     }, delay);
