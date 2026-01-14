@@ -8,7 +8,6 @@ const createBaseURL = (): string => {
     return envUrl;
   }
 
-  console.warn('VITE_API_URL 환경 변수가 설정되지 않았습니다. 개발 환경 기본값을 사용합니다.');
   return DEFAULT_API_BASE_URL;
 };
 

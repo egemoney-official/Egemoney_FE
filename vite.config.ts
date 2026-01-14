@@ -46,7 +46,7 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,ico,png,svg,webp}'],
         runtimeCaching: [
           {
-            urlPattern: /^https:\/\/sadajobe\.shop\/api\/.*/i,
+            urlPattern: /^https:\/\/egemoneyserver\.cloud\/api\/.*/i,
             handler: 'NetworkFirst',
             options: {
               cacheName: 'api-cache',
@@ -68,7 +68,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://sadajobe.shop',
+        target: 'https://egemoneyserver.cloud',
         changeOrigin: true,
         secure: true,
       },

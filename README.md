@@ -289,7 +289,7 @@ src/
 
 ```env
 # API 서버 URL
-VITE_API_URL=https://sadajobe.shop/api
+VITE_API_URL=https://egemoneyserver.cloud/api
 
 # MSW 활성화 여부 (개발 환경에서만 사용)
 VITE_USE_MSW=false
@@ -462,7 +462,7 @@ margin: ${theme.spacing(4)};  // 16px
 기본 API URL은 `src/Apis/config.ts`에서 설정됩니다:
 
 - 개발 환경: `/api` (Vite 프록시 사용)
-- 프로덕션 환경: `VITE_API_URL` 환경 변수 또는 `https://sadajobe.shop/api`
+- 프로덕션 환경: `VITE_API_URL` 환경 변수 또는 `https://egemoneyserver.cloud/api`
 
 ### 인증 플로우
 

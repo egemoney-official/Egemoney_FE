@@ -4,7 +4,7 @@
  * @returns 절대 경로 URL 문자열
  */
 const API_URL = import.meta.env.VITE_API_URL ?? '';
-const API_ORIGIN = new URL(API_URL).origin;
+const API_ORIGIN = API_URL ? new URL(API_URL).origin : window.location.origin;
 
 export const toAbsoluteUrl = (u?: string) => {
   if (!u) return '';
