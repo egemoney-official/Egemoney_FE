@@ -1,5 +1,6 @@
 import { QueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
+import { z } from 'zod';
 
 const isClientError = (error: unknown): boolean => {
   return (
@@ -46,4 +47,38 @@ export const processApiError = (error: unknown): AxiosError => {
   const axiosError = error as AxiosError;
   handleApiError(axiosError);
   return axiosError;
+};
+
+/**
+ * Zod 스키마를 사용하여 데이터를 검증하는 공통 유틸리티 함수
+ * @param schema - 검증에 사용할 Zod 스키마
+ * @param data - 검증할 데이터
+ * @param context - 검증 컨텍스트 정보 (url, type 등)
+ * @returns 검증된 데이터
+ * @throws 검증 실패 시 Error
+ */
+export const validateWithSchema = <T>(
+  schema: z.ZodSchema<T>,
+  data: unknown,
+  context: { url: string; type: 'request' | 'response' },
+): T => {
+  try {
+    return schema.parse(data);
+  } catch (validationError: unknown) {
+    if (validationError instanceof z.ZodError) {
+      const errorType = context.type === 'request' ? '요청 데이터' : '서버 응답';
+      const logContext = {
+        url: context.url,
+        errors: validationError.issues,
+        ...(context.type === 'request' ? { variables: data } : { data }),
+      };
+
+      console.error(`${errorType} 검증 실패:`, logContext);
+
+      throw new Error(
+        `${errorType} 형식이 올바르지 않습니다: ${validationError.issues.map((issue) => issue.message).join(', ')}`,
+      );
+    }
+    throw validationError;
+  }
 };
