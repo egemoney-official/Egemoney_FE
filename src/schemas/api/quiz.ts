@@ -82,7 +82,21 @@ const reviewQuizSchema = z.object({
   topicId: z.number().int().positive('토픽 ID는 양수여야 합니다'),
   questionTitle: z.string().min(1, '문제 제목은 필수입니다'),
   questionType: questionTypeSchema,
-  questionData: z.string().min(1, '문제 데이터는 필수입니다'),
+  questionData: z
+    .string()
+    .min(1, '문제 데이터는 필수입니다')
+    .transform((val, ctx) => {
+      try {
+        return JSON.parse(val);
+      } catch {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: '문제 데이터는 유효한 JSON 형식이어야 합니다',
+        });
+        return z.NEVER;
+      }
+    })
+    .pipe(questionDataSchema),
   difficultyLevel: difficultyLevelSchema,
   explanation: z.string(),
   correctRate: z.number().min(0).max(100, '정답률은 0-100 사이여야 합니다'),
@@ -110,4 +124,3 @@ export type QuizListResponse = z.infer<typeof quizListResponseSchema>;
 export type ReviewQuiz = z.infer<typeof reviewQuizSchema>;
 export type ReviewQuizResponse = z.infer<typeof reviewQuizResponseSchema>;
 export type QuizSubmitRequest = z.infer<typeof quizSubmitRequestSchema>;
-
