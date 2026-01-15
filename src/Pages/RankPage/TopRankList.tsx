@@ -12,9 +12,9 @@ export const TopRankList = ({ topRankingUsers }: { topRankingUsers: RankingUser[
     <Wrapper>
       {arranged.map((user, idx) => (
         <ChracterBox
-          key={`${user.nickname}-${idx}`}
+          key={`${user.nickname || 'unknown'}-${idx}`}
           $rank={rankLabels[idx]}
-          name={user.nickname}
+          name={user.nickname || '익명'}
           score={user.point}
           kongSkinUrl={toAbsoluteUrl(user.kongSkinUrl)}
         />

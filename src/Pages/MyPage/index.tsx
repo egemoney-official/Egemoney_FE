@@ -9,9 +9,10 @@ import { useNavigate } from 'react-router-dom';
 import { useQueryApi } from '@/Apis/useQueryApi';
 import { toAbsoluteUrl } from '@/utils/urlUtils';
 import { DESCRIPTIONS } from '@/Pages/TestPage/constants';
-import type { MyPageResponse, TestResult } from './types';
+import type { MyPageResponse } from './types';
 import { useTokenCookies } from '@/utils/cookie';
 import { useQueryClient } from '@tanstack/react-query';
+import { myPageResponseSchema, testResultSchema, type TestResult } from '@/schemas';
 
 export const MyPage = () => {
   const navigate = useNavigate();
@@ -22,12 +23,16 @@ export const MyPage = () => {
     data: myPageData,
     error: myPageError,
     isLoading: myPageIsLoading,
-  } = useQueryApi<MyPageResponse>(['page', 'mypage'], '/page/mypage');
+  } = useQueryApi<MyPageResponse>(['page', 'mypage'], '/page/mypage', {
+    schema: myPageResponseSchema,
+  });
   const {
     data: testResultData,
     error: testResultError,
     isLoading: testResultIsLoading,
-  } = useQueryApi<TestResult>(['users', 'me', 'propensity'], '/users/me/propensity');
+  } = useQueryApi<TestResult>(['users', 'me', 'propensity'], '/users/me/propensity', {
+    schema: testResultSchema,
+  });
 
   const handleShareClick = () => {
     navigate('/sharing');

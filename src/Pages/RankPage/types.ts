@@ -1,12 +1,2 @@
-export interface RankingUser {
-  nickname: string;
-  point: number;
-  rank: number;
-  kongSkinUrl: string;
-}
-export interface RankingResponse {
-  currentUser: RankingUser;
-  topRankingUsers: RankingUser[];
-  aboveUsers: RankingUser[];
-  belowUsers: RankingUser[];
-}
+// RankingUser와 RankingResponse는 스키마에서 추론한 타입을 사용 (src/schemas/api/ranking.ts)
+export type { RankingUser, RankingResponse } from '@/schemas';

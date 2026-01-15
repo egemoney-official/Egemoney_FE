@@ -17,8 +17,9 @@ export const MyRank = ({ data, isScoreRank }: { data: RankNeighborData; isScoreR
   const hasAboveUsers = data.above1 || data.above2;
   const hasBelowUsers = data.below1 || data.below2;
 
-  const truncateNickname = (nickname: string) => {
-    return nickname.length > 3 ? `${nickname.slice(0, 3)}...` : nickname;
+  const truncateNickname = (nickname: string | null) => {
+    const name = nickname || '익명';
+    return name.length > 3 ? `${name.slice(0, 3)}...` : name;
   };
 
   return (

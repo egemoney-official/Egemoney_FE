@@ -7,7 +7,10 @@
 export * from './api/kakao';
 export * from './api/home';
 export * from './api/quiz';
+export * from './api/ranking';
+export * from './api/mypage';
+export * from './api/test';
 
-// 폼 검증 스키마는 Phase 3에서 추가 예정
-// export * from './forms/nickname';
+// 폼 검증 스키마
+export * from './forms/nickname';
 // export * from './forms/quiz';

@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
-import { useEffect, useState, useMemo } from 'react';
-import Filter from 'badwords-ko';
+import { useEffect, useState } from 'react';
+import { nicknameSchema } from '@/schemas';
 
 interface NameInputProps {
   value: string;
@@ -11,20 +11,34 @@ interface NameInputProps {
 
 export const NameInput = ({ value, onChange, placeholder, onValidationChange }: NameInputProps) => {
   const [isValid, setIsValid] = useState(false);
-  const filter = useMemo(() => new Filter(), []);
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   useEffect(() => {
+    // 빈 값 체크
     if (value.trim() === '') {
       setIsValid(false);
+      setErrorMessage('');
       onValidationChange?.(false);
       return;
     }
 
-    const hasBadWords = filter.isProfane(value);
-    const isValidName = !hasBadWords;
-    setIsValid(isValidName);
-    onValidationChange?.(isValidName);
-  }, [value, onValidationChange, filter]);
+    // Zod 스키마로 검증 (길이, 문자 제한, 비속어 체크 모두 포함)
+    const schemaResult = nicknameSchema.safeParse(value);
+
+    if (!schemaResult.success) {
+      // 검증 실패 시 첫 번째 에러 메시지 표시
+      const firstError = schemaResult.error.issues[0];
+      setIsValid(false);
+      setErrorMessage(firstError.message);
+      onValidationChange?.(false);
+      return;
+    }
+
+    // 모든 검증 통과
+    setIsValid(true);
+    setErrorMessage('');
+    onValidationChange?.(true);
+  }, [value, onValidationChange]);
 
   return (
     <InputContainer>
@@ -39,9 +53,9 @@ export const NameInput = ({ value, onChange, placeholder, onValidationChange }: 
         aria-describedby={!isValid ? 'name-error' : undefined}
       />
       <ErrorMessageContainer>
-        {!isValid && (
+        {!isValid && errorMessage && (
           <ErrorMessage id="name-error" role="alert" aria-live="polite">
-            유효하지 않은 이름입니다
+            {errorMessage}
           </ErrorMessage>
         )}
       </ErrorMessageContainer>
