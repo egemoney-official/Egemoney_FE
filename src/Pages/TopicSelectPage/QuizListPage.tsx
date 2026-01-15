@@ -7,6 +7,7 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useQueryApi } from '@/Apis/useQueryApi';
 import { useState, useEffect } from 'react';
 import type { QuizListResponse } from '@/Pages/QuizPage/types';
+import { quizListResponseSchema } from '@/schemas';
 
 const PAGE_SIZE = 10;
 
@@ -32,6 +33,9 @@ export const QuizListPage = () => {
   } = useQueryApi<QuizListResponse>(
     ['topics', topicId || '', currentPage],
     `/topics/${topicId || ''}?page=${currentPage}&size=${PAGE_SIZE}`,
+    {
+      schema: quizListResponseSchema,
+    },
   );
 
   const quizzes = quizListData?.quizzes || [];
@@ -95,8 +99,8 @@ export const QuizListPage = () => {
     const pages: number[] = [];
     const maxVisiblePages = 5;
     const blockStart = Math.floor(currentPage / maxVisiblePages) * maxVisiblePages;
-    const startPage = blockStart;
-    const endPage = Math.min(totalPages - 1, startPage + maxVisiblePages - 1);
+    let startPage = blockStart;
+    let endPage = Math.min(totalPages - 1, startPage + maxVisiblePages - 1);
 
     for (let i = startPage; i <= endPage; i++) {
       pages.push(i);

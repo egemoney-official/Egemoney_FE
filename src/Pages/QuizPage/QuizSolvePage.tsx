@@ -10,6 +10,7 @@ import { useState } from 'react';
 import type { QuizData, QuizSubmitRequest, ReviewQuiz } from './types';
 import Header from '@/Shared/components/Header';
 import { useQueryClient } from '@tanstack/react-query';
+import { quizDataSchema, quizSubmitRequestSchema } from '@/schemas';
 
 export const QuizSolvePage = () => {
   const navigate = useNavigate();
@@ -31,11 +32,15 @@ export const QuizSolvePage = () => {
     data: quizData,
     error,
     isLoading,
-  } = useQueryApi<QuizData>(['quiz', quizId || ''], `/quiz/${quizId || ''}`);
+  } = useQueryApi<QuizData>(['quiz', quizId || ''], `/quiz/${quizId || ''}`, {
+    schema: quizDataSchema,
+  });
 
   const submitUrl = isReview ? `/quiz/review/${quizId}` : `/quiz/${quizId}/submit`;
 
-  const submitQuizMutation = usePostApi<void, QuizSubmitRequest>(submitUrl);
+  const submitQuizMutation = usePostApi<void, QuizSubmitRequest>(submitUrl, {
+    requestSchema: quizSubmitRequestSchema,
+  });
 
   const checkAnswer = (selectedAnswer: string | boolean | number, quizData: QuizData): boolean => {
     if (quizData.questionType === 'OX') {
