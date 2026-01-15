@@ -10,6 +10,7 @@ import { MyRankSection } from './MyRankSection';
 import { StatusActionBar } from '@/Shared/components/StatusActionBar';
 import { useQueryApi } from '@/Apis/useQueryApi';
 import type { RankingResponse } from './types';
+import { rankingResponseSchema } from '@/schemas';
 
 export const RankPage = () => {
   const [isScoreRank, setIsScoreRank] = useState<boolean>(true);
@@ -24,7 +25,9 @@ export const RankPage = () => {
     isScoreRank ? 'ratingPoint' : 'consecutiveAttendance',
   ];
 
-  const { data: rankingData, error, isLoading } = useQueryApi<RankingResponse>(queryKey, endpoint);
+  const { data: rankingData, error, isLoading } = useQueryApi<RankingResponse>(queryKey, endpoint, {
+    schema: rankingResponseSchema,
+  });
 
   if (isLoading) {
     return (

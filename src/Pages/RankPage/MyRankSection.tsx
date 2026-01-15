@@ -21,7 +21,7 @@ export const MyRankSection = ({
     above1,
     above2,
     myRank: currentUser.rank,
-    myName: currentUser.nickname,
+    myName: currentUser.nickname || '익명',
     myScore: currentUser.point,
     below1,
     below2,

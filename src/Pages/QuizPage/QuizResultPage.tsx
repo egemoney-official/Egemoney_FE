@@ -7,6 +7,7 @@ import { useQueryApi } from '@/Apis/useQueryApi';
 import type { QuizResultState, QuizListResponse } from './types';
 import { findNextQuiz, getNextQuizPath } from '@/utils/quizNavigationLogic';
 import { queryClient } from '@/Apis/queryClient';
+import { quizListResponseSchema } from '@/schemas';
 
 export const QuizResultPage = () => {
   const navigate = useNavigate();
@@ -34,7 +35,10 @@ export const QuizResultPage = () => {
   const { data: quizListData } = useQueryApi<QuizListResponse>(
     ['topics', topicId || '', currentPageForQuery],
     `/topics/${topicId || ''}?page=${currentPageForQuery}&size=10`,
-    { enabled: !isRecordPage && !isReviewMode },
+    {
+      enabled: !isRecordPage && !isReviewMode,
+      schema: quizListResponseSchema,
+    },
   );
 
   const nextPageIndex = currentPageForQuery + 1;
@@ -45,7 +49,10 @@ export const QuizResultPage = () => {
   const { data: nextPageQuizListData } = useQueryApi<QuizListResponse>(
     ['topics', topicId || '', nextPageIndex],
     `/topics/${topicId || ''}?page=${nextPageIndex}&size=10`,
-    { enabled: !isRecordPage && !isReviewMode && hasNextPage },
+    {
+      enabled: !isRecordPage && !isReviewMode && hasNextPage,
+      schema: quizListResponseSchema,
+    },
   );
 
   const handleBookmarkChange = (quizId: number) => {

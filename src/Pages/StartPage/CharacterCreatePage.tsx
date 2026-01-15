@@ -25,6 +25,7 @@ interface NicknameUpdateRequest {
   nickname: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface NicknameUpdateResponse {}
 
 type PageMode = 'create' | 'edit';
@@ -92,7 +93,9 @@ export const CharacterCreatePage = ({
 
         const loginUrl = getKakaoLoginUrl();
         window.location.href = loginUrl;
-      } catch {}
+      } catch {
+        // sessionStorage.setItem 실패 시 무시 (선택적 기능)
+      }
     }
   };
 

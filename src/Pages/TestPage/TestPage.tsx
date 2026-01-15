@@ -16,6 +16,11 @@ import type {
   PropensityResponse,
 } from './types';
 import { computeTotalScore, isStepValid } from './utils';
+import {
+  diagnoseRequestSchema,
+  diagnoseResponseSchema,
+  propensityResponseSchema,
+} from '@/schemas';
 
 export const TestPage = ({ onSubmit }: TestPageProps) => {
   const [answers, setAnswers] = useState<Answer>({ q3: [] });
@@ -23,12 +28,17 @@ export const TestPage = ({ onSubmit }: TestPageProps) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const diagnoseMutation = usePostApi<DiagnoseRes, DiagnoseReq>('/propensity/diagnose');
+  const diagnoseMutation = usePostApi<DiagnoseRes, DiagnoseReq>('/propensity/diagnose', {
+    requestSchema: diagnoseRequestSchema,
+    responseSchema: diagnoseResponseSchema,
+  });
   const {
     data: propensityData,
     error: propensityError,
     isLoading: propensityIsLoading,
-  } = useQueryApi<PropensityResponse>(['users', 'me', 'propensity'], '/users/me/propensity');
+  } = useQueryApi<PropensityResponse>(['users', 'me', 'propensity'], '/users/me/propensity', {
+    schema: propensityResponseSchema,
+  });
 
   const pick = (key: keyof Answer, value: string) =>
     setAnswers((prev) => ({ ...prev, [key]: value }));

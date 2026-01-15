@@ -11,7 +11,12 @@ import { StatusActionBar } from '@/Shared/components/StatusActionBar';
 import { useQueryApi } from '@/Apis/useQueryApi';
 import type { HomeResponse, PropensityResponse } from './types';
 import { toAbsoluteUrl } from '@/utils/urlUtils';
-import type { ReviewQuizResponse } from '@/Pages/QuizPage/types';
+import {
+  homeResponseSchema,
+  propensityResponseSchema,
+  reviewQuizResponseSchema,
+  type ReviewQuizResponse,
+} from '@/schemas';
 
 export const HomePage = () => {
   const navigate = useNavigate();
@@ -19,19 +24,24 @@ export const HomePage = () => {
     data: homeData,
     error: homeError,
     isLoading: homeIsLoading,
-  } = useQueryApi<HomeResponse>(['page', 'home'], '/page/home');
+  } = useQueryApi<HomeResponse>(['page', 'home'], '/page/home', {
+    schema: homeResponseSchema,
+  });
 
   const {
     data: propensityData,
     error: propensityError,
     isLoading: propensityIsLoading,
-  } = useQueryApi<PropensityResponse>(['users', 'me', 'propensity'], '/users/me/propensity');
+  } = useQueryApi<PropensityResponse>(['users', 'me', 'propensity'], '/users/me/propensity', {
+    schema: propensityResponseSchema,
+  });
 
   const { refetch: refetchReviewQuizzes } = useQueryApi<ReviewQuizResponse>(
     ['quiz', 'review'],
     '/quiz/review',
     {
       enabled: false,
+      schema: reviewQuizResponseSchema,
     },
   );
 

@@ -6,19 +6,31 @@ import type {
   KakaoRegisterRequest,
   KakaoRegisterResponse,
 } from './types';
+import {
+  kakaoLoginRequestSchema,
+  kakaoLoginResponseSchema,
+  kakaoRegisterRequestSchema,
+  kakaoRegisterResponseSchema,
+} from '@/schemas';
 
 /**
  * 카카오 로그인 API 호출 훅
  */
 export const useKakaoLogin = () => {
-  return usePostApi<KakaoLoginResponse, KakaoLoginRequest>('/user/login');
+  return usePostApi<KakaoLoginResponse, KakaoLoginRequest>('/user/login', {
+    requestSchema: kakaoLoginRequestSchema,
+    responseSchema: kakaoLoginResponseSchema,
+  });
 };
 
 /**
  * 카카오 회원가입 API 호출 훅
  */
 export const useKakaoRegister = () => {
-  return usePostApi<KakaoRegisterResponse, KakaoRegisterRequest>('/user/register');
+  return usePostApi<KakaoRegisterResponse, KakaoRegisterRequest>('/user/register', {
+    requestSchema: kakaoRegisterRequestSchema,
+    responseSchema: kakaoRegisterResponseSchema,
+  });
 };
 
 /**

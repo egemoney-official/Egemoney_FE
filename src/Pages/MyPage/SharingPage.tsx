@@ -9,6 +9,7 @@ import { useRef, type RefObject } from 'react';
 import { useCaptureImage } from './useCaptureImage';
 import { DESCRIPTIONS } from '../TestPage/constants';
 import type { MyPageResponse, TestResult } from './types';
+import { myPageResponseSchema, testResultSchema } from '@/schemas';
 
 export const SharingPage = () => {
   const captureRef = useRef<HTMLDivElement>(null);
@@ -28,12 +29,16 @@ export const SharingPage = () => {
     data: myPageData,
     error: myPageError,
     isLoading: myPageIsLoading,
-  } = useQueryApi<MyPageResponse>(['page', 'mypage'], '/page/mypage');
+  } = useQueryApi<MyPageResponse>(['page', 'mypage'], '/page/mypage', {
+    schema: myPageResponseSchema,
+  });
   const {
     data: testResultData,
     error: testResultError,
     isLoading: testResultIsLoading,
-  } = useQueryApi<TestResult>(['users', 'me', 'propensity'], '/users/me/propensity');
+  } = useQueryApi<TestResult>(['users', 'me', 'propensity'], '/users/me/propensity', {
+    schema: testResultSchema,
+  });
 
   if (myPageIsLoading || testResultIsLoading) {
     return (

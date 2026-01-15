@@ -9,7 +9,7 @@ export const kakaoTestHandlers = [
    * 카카오 로그인 API
    * 시나리오별로 다른 응답 반환
    */
-  http.post('https://sadajobe.shop/api/user/login', async ({ request }) => {
+  http.post('https://egemoneyserver.cloud/api/user/login', async ({ request }) => {
     const body = (await request.json()) as { code: string };
 
     // 시나리오 1: 기존 사용자 (200 성공)
@@ -43,7 +43,7 @@ export const kakaoTestHandlers = [
   /**
    * 카카오 회원가입 API
    */
-  http.post('https://sadajobe.shop/api/user/register', async ({ request }) => {
+  http.post('https://egemoneyserver.cloud/api/user/register', async ({ request }) => {
     const body = (await request.json()) as { code: string; nickname: string };
 
     // 닉네임 검증 실패

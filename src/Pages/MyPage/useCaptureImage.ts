@@ -13,7 +13,9 @@ export const useCaptureImage = (
 ) => {
   const captureImage = async () => {
     if (!elementRef.current) {
-      console.error('캡처할 요소를 찾을 수 없습니다.');
+      if (import.meta.env.DEV) {
+        console.error('캡처할 요소를 찾을 수 없습니다.');
+      }
       return;
     }
 
@@ -35,14 +37,18 @@ export const useCaptureImage = (
       link.click();
       document.body.removeChild(link);
     } catch (error) {
-      console.error('이미지 캡처 중 오류 발생:', error);
+      if (import.meta.env.DEV) {
+        console.error('이미지 캡처 중 오류 발생:', error);
+      }
       alert('이미지 저장 중 오류가 발생했습니다.');
     }
   };
 
   const copyToClipboard = async () => {
     if (!elementRef.current) {
-      console.error('캡처할 요소를 찾을 수 없습니다.');
+      if (import.meta.env.DEV) {
+        console.error('캡처할 요소를 찾을 수 없습니다.');
+      }
       return;
     }
 
@@ -103,7 +109,9 @@ export const useCaptureImage = (
         img.src = dataUrl;
       }
     } catch (error) {
-      console.error('클립보드 복사 중 오류 발생:', error);
+      if (import.meta.env.DEV) {
+        console.error('클립보드 복사 중 오류 발생:', error);
+      }
       alert('이미지 복사 중 오류가 발생했습니다.');
     }
   };

@@ -1,19 +1,21 @@
 import { usePostApi } from './useMutationApi';
+import {
+  refreshTokenRequestSchema,
+  refreshTokenResponseSchema,
+  type RefreshTokenRequest,
+  type RefreshTokenResponse,
+} from '@/schemas';
 
-export interface RefreshTokenRequest {
-  refreshToken: string;
-}
-
-export interface RefreshTokenResponse {
-  accessToken: string;
-  refreshToken: string;
-}
+export type { RefreshTokenRequest, RefreshTokenResponse };
 
 /**
  * 토큰 갱신 API 훅
  */
 export const useRefreshToken = () => {
-  return usePostApi<RefreshTokenResponse, RefreshTokenRequest>('/auth/refresh');
+  return usePostApi<RefreshTokenResponse, RefreshTokenRequest>('/auth/refresh', {
+    requestSchema: refreshTokenRequestSchema,
+    responseSchema: refreshTokenResponseSchema,
+  });
 };
 
 /**

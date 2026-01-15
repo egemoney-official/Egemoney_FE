@@ -33,21 +33,10 @@ export interface QuizListResponse {
   quizzes: Quiz[];
 }
 
-export interface ReviewQuizResponse {
-  reviewQuizzes: ReviewQuiz[];
-}
-
-export interface ReviewQuiz {
-  quizId: number;
-  topicId: number;
-  questionTitle: string;
-  questionType: 'OX' | 'MULTIPLE_CHOICE' | 'SHORT_ANSWER';
-  questionData: string;
-  difficultyLevel: 'EASY' | 'MEDIUM' | 'HARD';
-  explanation: string;
-  correctRate: number;
-  reviewStep: string;
-}
+// ReviewQuiz와 ReviewQuizResponse는 스키마에서 추론한 타입을 사용 (src/schemas/api/quiz.ts)
+// questionData는 JSON 문자열에서 파싱되어 객체로 변환됨
+import type { ReviewQuiz } from '@/schemas';
+export type { ReviewQuiz, ReviewQuizResponse } from '@/schemas';
 
 export interface QuizResultState {
   selectedAnswer: string | boolean | number;
