@@ -26,7 +26,9 @@ export const refreshAccessToken = async (): Promise<string | null> => {
 
     return accessToken;
   } catch (error) {
-    console.error('토큰 갱신 실패:', error);
+    if (import.meta.env.DEV) {
+      console.error('토큰 갱신 실패:', error);
+    }
     return null;
   }
 };

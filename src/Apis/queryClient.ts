@@ -38,7 +38,9 @@ export const handleApiError = (error: unknown) => {
         ? error.message
         : '알 수 없는 오류가 발생했습니다.';
 
-  console.error('API Error:', errorMessage);
+  if (import.meta.env.DEV) {
+    console.error('API Error:', errorMessage);
+  }
 
   return { shouldRedirect: false };
 };
@@ -73,7 +75,9 @@ export const validateWithSchema = <T>(
         ...(context.type === 'request' ? { variables: data } : { data }),
       };
 
-      console.error(`${errorType} 검증 실패:`, logContext);
+      if (import.meta.env.DEV) {
+        console.error(`${errorType} 검증 실패:`, logContext);
+      }
 
       throw new Error(
         `${errorType} 형식이 올바르지 않습니다: ${validationError.issues.map((issue) => issue.message).join(', ')}`,

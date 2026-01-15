@@ -87,7 +87,9 @@ export const CustomizePage = () => {
       navigate('/home');
     } catch (e: unknown) {
       alert('착용하기에 실패했습니다. 다시 시도해주세요.');
-      console.error(e);
+      if (import.meta.env.DEV) {
+        console.error(e);
+      }
     }
   };
 

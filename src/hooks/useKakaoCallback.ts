@@ -45,7 +45,7 @@ export const useKakaoCallback = (): UseKakaoCallbackReturn => {
    * 에러 처리 및 리다이렉션
    */
   const handleError = (errorMessage: string, shouldLog = false, error?: unknown) => {
-    if (shouldLog && error) {
+    if (shouldLog && error && import.meta.env.DEV) {
       console.error('로그인 실패:', error);
     }
 
