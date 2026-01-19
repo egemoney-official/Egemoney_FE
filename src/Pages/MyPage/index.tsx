@@ -10,13 +10,13 @@ import { useQueryApi } from '@/Apis/useQueryApi';
 import { toAbsoluteUrl } from '@/utils/urlUtils';
 import { DESCRIPTIONS } from '@/Pages/TestPage/constants';
 import type { MyPageResponse } from './types';
-import { useTokenCookies } from '@/utils/cookie';
 import { useQueryClient } from '@tanstack/react-query';
 import { myPageResponseSchema, testResultSchema, type TestResult } from '@/schemas';
+import { useAuth } from '@/hooks/useAuth';
 
 export const MyPage = () => {
   const navigate = useNavigate();
-  const { clearTokens } = useTokenCookies();
+  const { logout } = useAuth();
   const queryClient = useQueryClient();
 
   const {
@@ -39,9 +39,8 @@ export const MyPage = () => {
   };
 
   const handleLogout = () => {
-    clearTokens();
     queryClient.clear();
-    navigate('/login');
+    logout();
   };
 
   if (myPageIsLoading || testResultIsLoading) {

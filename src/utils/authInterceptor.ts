@@ -1,8 +1,10 @@
 import type { InternalAxiosRequestConfig } from 'axios';
 import { api } from '@/Apis/axios';
+import { useAuthStore } from '@/stores/authStore';
 
 /**
  * 토큰 갱신 함수
+ * 성공 시 Zustand store도 업데이트합니다.
  */
 export const refreshAccessToken = async (): Promise<string | null> => {
   try {
@@ -21,8 +23,12 @@ export const refreshAccessToken = async (): Promise<string | null> => {
 
     const { accessToken, refreshToken: newRefreshToken } = response.data;
 
+    // 쿠키에 토큰 저장
     document.cookie = `access_token=${accessToken}; path=/; max-age=${7 * 24 * 60 * 60}; secure; samesite=strict`;
     document.cookie = `refresh_token=${newRefreshToken}; path=/; max-age=${30 * 24 * 60 * 60}; secure; samesite=strict`;
+
+    // Zustand store 업데이트
+    useAuthStore.getState().setTokens(accessToken, newRefreshToken);
 
     return accessToken;
   } catch (error) {
@@ -35,11 +41,19 @@ export const refreshAccessToken = async (): Promise<string | null> => {
 
 /**
  * 로그아웃 처리 함수
+ * 쿠키 삭제 및 Zustand store 상태 초기화
+ * 커스텀 이벤트를 발생시켜 React Router의 navigate를 통해 페이지 이동
  */
 export const handleLogout = () => {
+  // 쿠키 삭제
   document.cookie = 'access_token=; path=/; max-age=0';
   document.cookie = 'refresh_token=; path=/; max-age=0';
-  window.location.href = '/login';
+
+  // Zustand store 상태 초기화
+  useAuthStore.getState().logout();
+
+  // 커스텀 이벤트 발생 (React Router의 navigate를 사용하기 위해)
+  window.dispatchEvent(new CustomEvent('app:logout'));
 };
 
 /**
