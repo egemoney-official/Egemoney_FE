@@ -42,6 +42,7 @@ export const refreshAccessToken = async (): Promise<string | null> => {
 /**
  * 로그아웃 처리 함수
  * 쿠키 삭제 및 Zustand store 상태 초기화
+ * 커스텀 이벤트를 발생시켜 React Router의 navigate를 통해 페이지 이동
  */
 export const handleLogout = () => {
   // 쿠키 삭제
@@ -51,7 +52,8 @@ export const handleLogout = () => {
   // Zustand store 상태 초기화
   useAuthStore.getState().logout();
 
-  window.location.href = '/login';
+  // 커스텀 이벤트 발생 (React Router의 navigate를 사용하기 위해)
+  window.dispatchEvent(new CustomEvent('app:logout'));
 };
 
 /**
